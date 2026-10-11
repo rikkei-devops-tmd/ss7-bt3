@@ -6,7 +6,11 @@ BAI 3: THIET LAP CO SO DU LIEU VA TU CAU HINH DICH VU SYSTEMD CHO SPRING BOOT
 - Thuc thi ung dung duoi quyen mot nguoi dung gioi han (non-root) de bao ve he dieu hanh.
 
 2. BOI CANH VA YEU CAU
-- Boi canh: Dong goi ung dung Spring Boot app.jar chay tren cong 8082 thanh dich vu he thong Systemd tu dong ket noi toi co so du lieu MySQL springboot_db.
+- Boi canh: Dong goi ung dung Spring Boot app.jar chay tren cong 8082 thanh dich vu he thong Systemd tu dong ket noi toi co so du lieu MySQL springboot_db tren may chu VPS.
+- Thong tin may chu VPS thuc te:
+  - Dia chi IP: 103.20.102.126
+  - Hostname: 10320102126523343
+  - Java Runtime: OpenJDK 21 (/usr/bin/java)
 - Rang buoc:
   - Khoi tao database springboot_db trong MySQL, tao user spring-admin voi mat khau SpringSecure@123 va cap toan quyen tren springboot_db.
   - Tao user he thong Linux spring-runner (khong co shell login) lam tai khoan chay ung dung.
@@ -14,7 +18,7 @@ BAI 3: THIET LAP CO SO DU LIEU VA TU CAU HINH DICH VU SYSTEMD CHO SPRING BOOT
 
 3. KHOI TAO CO SO DU LIEU VA PHAN QUYEN MYSQL
 
-Dang nhap vao MySQL bang quyen root:
+Dang nhap vao MySQL bang quyen root tren VPS 103.20.102.126:
 ```bash
 sudo mysql -u root -p
 ```
@@ -45,7 +49,7 @@ sudo chmod 750 /opt/spring-app
 
 5. TEP TIN CAU HINH DICH VU SYSTEMD
 
-Duong dan: /etc/systemd/system/spring-app.service
+Duong dan tren may chu: /etc/systemd/system/spring-app.service
 Tep tin nguon dinh kem: spring-app.service
 
 ```ini
@@ -67,7 +71,7 @@ Giai thich cac tham so:
 - Description: Mo ta thong tin ve dich vu ung dung Spring Boot.
 - After: Yeu cau khoi dong sau khi he thong mang va MySQL service da san sang.
 - User: Thiet lap tien trinh chay duoi tai khoan gioi han spring-runner.
-- ExecStart: Duong dan tuyet doi toi trinh thuc thi Java va tep app.jar.
+- ExecStart: Duong dan tuyet doi toi trinh thuc thi Java OpenJDK 21 (/usr/bin/java) va tep app.jar.
 - Restart: Thiet lap co che tu khoi dong lai khi co loi thoat bat thuong (on-failure).
 - RestartSec: Khoang thoi gian cho 10 giay truoc khi tien hanh restart.
 - WantedBy: Gan dich vu vao target multi-user.target de tu dong chay khi boot he thong.
@@ -83,7 +87,7 @@ sudo systemctl start spring-app.service
 ```
 
 6.2. Kiem tra trang thai dich vu Systemd
-Lenh thuc hien:
+Lenh thuc hien tren VPS 103.20.102.126:
 ```bash
 sudo systemctl status spring-app.service
 ```
@@ -100,7 +104,7 @@ Ket qua dau ra:
 ```
 
 6.3. Kiem tra cong mang lang nghe cua ung dung
-Lenh thuc hien:
+Lenh thuc hien tren VPS 103.20.102.126:
 ```bash
 ss -tlnp | grep 8082
 ```
@@ -110,6 +114,6 @@ LISTEN 0 100 0.0.0.0:8082 0.0.0.0:* users:(("java",pid=12345,fd=14))
 ```
 
 7. KET LUAN
-- Co so du lieu springboot_db va tai khoan quan tri spring-admin duoc phan quyen chuan xac.
+- Co so du lieu springboot_db va tai khoan quan tri spring-admin duoc phan quyen chuan xac tren VPS 103.20.102.126.
 - Dich vu Systemd spring-app.service hoat dong on dinh duoi quyen non-root spring-runner.
 - Co che tu khoi dong lai va kiem soat cong 8082 hoat dong dung thiet ke.
